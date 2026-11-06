@@ -1,0 +1,28 @@
+# .NET build & local SQLite DB files
+bin/
+obj/
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+*.sqlite
+*.sqlite3
+**/*.db
+**/*.db-shm
+**/*.db-wal
+**/*.db-journal
+backend/VuePresyo.Api/storage/
+
+# Node / Vite
+node_modules/
+frontend/dist/
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+backend/VuePresyo.Api/.env
+backend/VuePresyo.Api/.env.local
+
+# OS
+.DS_Store

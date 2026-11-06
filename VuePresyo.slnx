@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/backend/">
+    <Project Path="backend/VuePresyo.Api/VuePresyo.Api.csproj" />
+    <Project Path="backend/VuePresyo.Tests/VuePresyo.Tests.csproj" />
+  </Folder>
+</Solution>

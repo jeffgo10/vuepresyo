@@ -1,0 +1,28 @@
+{
+  "name": "vuepresyo-frontend",
+  "version": "0.5.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:frontend": "vite",
+    "dev:backend": "dotnet run --project ../backend/VuePresyo.Api",
+    "dev:all": "concurrently -k -n backend,frontend -c cyan,green \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "start": "npm run dev:all",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "tesseract.js": "^7.0.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "concurrently": "^10.0.6",
+    "typescript": "~5.7.3",
+    "vite": "^6.2.0",
+    "vue-tsc": "^2.2.4"
+  }
+}
