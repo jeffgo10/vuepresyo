@@ -1,0 +1,53 @@
+---
+description: Dual-write important context to Cursor rules and the Obsidian VuePresyo vault
+alwaysApply: true
+---
+
+# VuePresyo knowledge sync (Cursor rules + Obsidian)
+
+When you learn or decide something worth keeping — architecture, coding patterns, resolved bugs, dev workflow — capture it in **both** places below.
+
+## When to capture
+
+- Non-obvious conventions or constraints discovered while coding
+- Resolved bugs with a non-trivial root cause or fix
+- Architecture or data-flow decisions
+- Backend API, EF Core SQLite, or Vue frontend quirks
+- New models, endpoints, or routes
+
+Skip trivial one-off fixes, typos, and anything already documented.
+
+## Destination 1 — Cursor rules + agents (always)
+
+**Rules** — focused `.mdc` files in `.cursor/rules/`:
+
+- One concern per file; keep under ~80 lines
+- YAML frontmatter: `description`, `alwaysApply` or `globs`
+- Name by topic: `vuepresyo-auth.mdc`, `vuepresyo-receipts.mdc`
+- Prefer updating an existing rule over creating duplicates
+
+**Subagents** in `.cursor/agents/*.md`. Current: `vuepresyo-explore` (read-only archaeology), `vuepresyo-verifier` (read-only QA). Do not duplicate slash commands or long rule text inside agent prompts — point at `.mdc` files.
+
+## Destination 2 — Obsidian VuePresyo vault (when MCP is up)
+
+**MCP server:** `user-MCP_DOCKER`
+**Vault folder:** `VuePresyo/` (paths relative to vault root)
+
+| Content type | Obsidian target |
+|---|---|
+| Phase status, deliverables | `VuePresyo/Roadmap.md` |
+| Product rules | `VuePresyo/README.md`, `Tech Stack.md`, `Definition Flow.md` |
+| Resolved issues, gotchas | `VuePresyo/Notes — <short title>.md` |
+
+Use `obsidian_patch_content` to update a heading; `obsidian_append_content` for dated log entries. Read first with `obsidian_get_file_contents`.
+
+**Slash commands:** `/sync-obsidian-vuepresyo`, `/create-github-pr`, `/handoff`. See `.cursor/commands/`.
+
+## Pre-check (required before any Obsidian write)
+
+1. **Connection probe:** `obsidian_list_files_in_dir` with `{ "dirpath": "VuePresyo" }`.
+2. **If probe succeeds** — proceed with Obsidian read/write.
+3. **If probe fails:** still write/update Cursor rules and repo docs; tell the user Obsidian sync was skipped; do **not** block the primary task.
+
+Never call `obsidian_append_content` or `obsidian_patch_content` without a successful pre-check in the same session.
+
