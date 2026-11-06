@@ -1,0 +1,43 @@
+# VuePresyo Project Context
+
+**Product:** VuePresyo — personal receipt-tracking app for the GO family group.
+**Repo:** `vuepresyo`.
+**Product Knowledge:** Obsidian vault folder `VuePresyo/`.
+
+**Stack:** Vue 3 + TypeScript + Vite (phone-first) frontend + C# ASP.NET Core (.NET 10) + Entity Framework Core + SQLite backend. Gemini runs inside `GeminiService` for `scanReceipt` and `describeProduct`. Login-only JWT authentication.
+
+**Visual Source:** CSS tokens live in `frontend/src/style.css`. Do not add Tailwind, Bootstrap, or MUI.
+
+## Phase Status (Obsidian: `VuePresyo/Roadmap.md`)
+
+| Phase | Status |
+|---|---|
+| 0 Setup | Complete (Vue 3 + C# .NET 10 + EF Core SQLite) |
+| 1 Auth and group | Complete (Seeded Aidee & Jeff in Group GO, JWT auth) |
+| 2 Scan and extract | Complete (Tesseract OCR gate + Gemini vision + sample fixture) |
+| 3 Review and save | Complete (`saveReceipt` transactional persistence + VAT checks) |
+| 4 Price tracking | Complete (Home lists this month's price changes for the same item at the same store) |
+| 5 Product photos | Complete (Optional package photo, confirmed rename, shared `productId` across stores) |
+| 6 Store comparison | Complete (Compare screen ranks the latest price of a shared `productId` across stores) |
+| 7 PWA and offline queue | Complete (PWA manifest, service worker shell cache, IndexedDB offline scan queue) |
+
+## Layout
+
+| Path | Role |
+|---|---|
+| `frontend/src/views/` | Login, home (recent scans), scan, review, receipts, compare, items |
+| `frontend/src/components/` | AppShell, receipt rows, review editor, modals |
+| `frontend/src/lib/` | API client, auth session, offline scan queue |
+| `frontend/src/helpers/` | UI-adjacent helpers (OCR, formatting, image compression) |
+| `frontend/src/domain/` | Receipt types, VAT validation, SKU keys, comparison math |
+| `backend/VuePresyo.Api/` | C# .NET 10 endpoints, `AppDbContext`, `DbSeeder`, `VuePresyoService`, `GeminiService` |
+| `backend/VuePresyo.Tests/` | xUnit backend tests (`VuePresyoBackendTests`) |
+
+## Coding Conventions
+
+- Domain types live in `frontend/src/domain/` and `backend/VuePresyo.Api/Domain/`.
+- Receipt writes go through `/api/functions/saveReceipt` (`VuePresyoService.SaveReceiptAsync`).
+- Currency is PHP. Prices are VAT-inclusive. Do not compute `subtotal + VAT = total`.
+- Buyer name, address, and TIN are never extracted or stored.
+- Minimize diff scope; match existing naming, imports, and patterns.
+

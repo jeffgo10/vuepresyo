@@ -1,0 +1,21 @@
+---
+description: VuePresyo login-only JWT Auth and GO group membership
+globs:
+  - frontend/src/lib/**/*.ts
+  - frontend/src/components/**/*.vue
+  - frontend/src/views/**/*.vue
+  - backend/VuePresyo.Api/**/*.cs
+alwaysApply: false
+---
+
+# VuePresyo auth
+
+Login only. There is no registration screen and no client call to create a user.
+
+- Accounts are created by `backend/VuePresyo.Api/Data/DbSeeder.cs` on API startup.
+- Seeded members: Aidee (`abdinglasa@gmail.com`) and Jeff (`jeffrey.t.go@gmail.com`). Both belong to group `GO`.
+- After login, the header chip reads the authenticated user (`name`, `groupId`) and must show `Group GO · {name}`.
+- Backend endpoints require a valid JWT Bearer token with `groupId == "GO"`.
+- Receipt, item, product, store, and price-history **writes** go through `/api/functions/saveReceipt` (`VuePresyoService.SaveReceiptAsync`).
+- Do not store the buyer name, address, or TIN from a receipt.
+

@@ -1,0 +1,16 @@
+# Typecheck Process Limits
+
+Full-repo `vue-tsc` / `tsc` loads most of the program into memory. Parallel copies multiply RAM use.
+
+## Do
+
+- Run **at most one** full-repo typecheck (`vue-tsc -b`) at a time. Await it before starting another.
+- Before the first push of a feature PR, run `dotnet test && cd frontend && npm run build` once (it includes `vue-tsc -b`). Do not start a second full-repo typecheck while that is running.
+- If a previous `vue-tsc` is still running in a terminal, wait or skip — do not start a second one.
+
+## Do Not
+
+- Launch multiple background shells that each run `vue-tsc` / `tsc` on the whole project.
+- Parallelize full-project typechecks.
+- Kill unrelated user processes to free a hung check unless the user asks.
+
